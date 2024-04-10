@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Table(name="usertable")
-public class User {
+public class UserEntity {
     @Id
-    private String id;
+    private int userid;
 
     private String username;
 

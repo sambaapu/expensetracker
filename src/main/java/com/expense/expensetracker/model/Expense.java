@@ -24,7 +24,7 @@ public class Expense {
 
     @ManyToOne
     @JoinColumn(name="userid")
-    private User user;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name="categoryid")
