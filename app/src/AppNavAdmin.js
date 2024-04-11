@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Navbar, Nav,NavItem,NavbarBrand,NavLink} from 'reactstrap';
-class AppNav extends Component{
+class AppNavAdmin extends Component{
     state = {}
     render() {
         return (
@@ -15,6 +15,9 @@ class AppNav extends Component{
                     <NavLink href="/categories">Categories</NavLink>
                   </NavItem>
                   <NavItem>
+                    <NavLink href="/users">Users</NavLink>
+                  </NavItem>
+                  <NavItem>
                     <NavLink href="/expenses">Expenses</NavLink>
                   </NavItem>
                 </Nav>
@@ -23,4 +26,4 @@ class AppNav extends Component{
         );
       }
 }
-export default AppNav;
+export default AppNavAdmin;

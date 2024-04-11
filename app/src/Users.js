@@ -7,7 +7,7 @@ import { Table,Container,Input,Button,Label, FormGroup, Form} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import Moment from 'react-moment';
 
-class Expense extends Component {
+class Users extends Component {
 
   //{"expenseid":100,"amount":20.5,"date":"2019-06-16T00:00:00Z","category":{"categoryid":10,"name":"Travel"}}
   emptyexpense = {
@@ -178,4 +178,4 @@ class Expense extends Component {
   }
 }
  
-export default Expense;
+export default Users;

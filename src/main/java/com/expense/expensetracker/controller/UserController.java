@@ -16,7 +16,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
