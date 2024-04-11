@@ -1,6 +1,6 @@
 package com.expense.expensetracker.Security;
 
-import javax.security.enterprise.credential.Password;
+import jakarta.security.enterprise.credential.Password;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
