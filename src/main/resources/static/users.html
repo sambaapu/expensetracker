@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 5vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Users</h1>
+    <div id="userList"></div>
+
+    <script>
+        // Retrieve JWT token from local storage
+        var token = localStorage.getItem("jwtToken");
+        console.log("Token: " + token);
+
+        fetch("http://localhost:8080/api/users", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            var userList = document.getElementById("userList");
+            var table = document.createElement("table");
+            var thead = document.createElement("thead");
+            var tbody = document.createElement("tbody");
+
+            // Apply CSS style to the table
+            table.style.borderCollapse = "collapse";
+            table.style.width = "100%";
+
+            // Create table header
+            var headerRow = document.createElement("tr");
+            var usernameHeader = document.createElement("th");
+            usernameHeader.textContent = "Username";
+            // Apply CSS style to header cell
+            usernameHeader.style.border = "1px solid #ddd";
+            usernameHeader.style.padding = "8px";
+            var passwordHeader = document.createElement("th");
+            passwordHeader.textContent = "Password";
+            // Apply CSS style to header cell
+            passwordHeader.style.border = "1px solid #ddd";
+            passwordHeader.style.padding = "8px";
+            headerRow.appendChild(usernameHeader);
+            headerRow.appendChild(passwordHeader);
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Create table body
+            data.forEach(user => {
+                var row = document.createElement("tr");
+                var usernameCell = document.createElement("td");
+                usernameCell.textContent = user.username;
+                // Apply CSS style to table cell
+                usernameCell.style.border = "1px solid #ddd";
+                usernameCell.style.padding = "8px";
+                var passwordCell = document.createElement("td");
+                passwordCell.textContent = user.password;
+                // Apply CSS style to table cell
+                passwordCell.style.border = "1px solid #ddd";
+                passwordCell.style.padding = "8px";
+                row.appendChild(usernameCell);
+                row.appendChild(passwordCell);
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+
+            userList.appendChild(table);
+
+
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again later.");
+        });
+    </script>
+</body>
+</html>

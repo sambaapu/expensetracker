@@ -6,6 +6,7 @@ import './App.css';
 import { Table,Container,Input,Button,Label, FormGroup, Form} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import Moment from 'react-moment';
+import axios from 'axios';
 
 class Expense extends Component {
 
@@ -33,18 +34,18 @@ class Expense extends Component {
     this.handleDate= this.handleDate.bind(this);
   }
 
-  async handleSubmit(event){
-     
-    const expense = this.state.expense;
-  
 
-    await fetch(`/api/expense`, {
-      method : 'POST',
-      headers : {
+  async handleSubmit(event){
+    const expense = this.state.expense;
+    
+    const token = localStorage.getItem('token'); // Get the JWT token from local storage
+    
+    await axios.post(`/api/expense`, expense, {
+      headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body : JSON.stringify(expense),
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Include the JWT token in the request headers
+      }
     });
     
     event.preventDefault();
@@ -69,30 +70,60 @@ class Expense extends Component {
   }
 
   async remove(id){
-    await fetch(`/api/expense/${id}` , {
-      method: 'DELETE' ,
-      headers : {
-        'Accept' : 'application/json',
-        'Content-Type' : 'application/json'
-      }
-
-    }).then(() => {
-      let updatedExpenses = [...this.state.expenses].filter(i => i.expenseid !== id);
-      this.setState({expenses : updatedExpenses});
-    });
+    const token = localStorage.getItem('token');
+    try {
+      await axios.delete(`/api/expense/${id}` , {
+        method: 'DELETE' ,
+        headers : {
+          'Accept' : 'application/json',
+          'Content-Type' : 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+  
+      }).then(() => {
+        let updatedExpenses = [...this.state.expenses].filter(i => i.expenseid !== id);
+        this.setState({expenses : updatedExpenses});
+      });
+      
+    } catch (error) {
+      
+    }
+    
 
 }
 
   async componentDidMount(){
-    const response= await fetch('/api/categories');
-    const body= await response.json();
-    this.setState({categories : body , isLoading :false});
-
-
-    const responseExp= await fetch('/api/expenses');
-    const bodyExp = await responseExp.json();
-    this.setState({expenses : bodyExp , isLoading :false});
-    console.log(bodyExp)
+    const token = localStorage.getItem('token'); // Get the JWT token from local storage
+    try {
+      const response = await axios.get('/api/categories', {
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Include the JWT token in the request headers
+        }
+      });
+      const body= await response.json();
+      console.log(body);
+      this.setState({categories : body , isLoading :false});
+      
+    } catch (error) {
+      
+    }
+    try {
+      const responseExp = await axios.get('/api/categories', {
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Include the JWT token in the request headers
+        }
+      });
+      const bodyExp = responseExp.json();
+      this.setState({expenses : bodyExp , isLoading :false});
+      console.log(bodyExp)
+      
+    } catch (error) {
+      
+    }
   }
 
   render(){
