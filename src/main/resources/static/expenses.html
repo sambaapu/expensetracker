@@ -57,13 +57,38 @@
         .then(response => response.json())
         .then(data => {
             var expensesList = document.getElementById("expensesList");
-            var ul = document.createElement("ul");
+            var table = document.createElement("table");
+            table.style.borderCollapse = "collapse";
+            table.style.width = "100%";
+
+            // Create table header
+            var headerRow = document.createElement("tr");
+            var th1 = document.createElement("th");
+            th1.textContent = "Description";
+            var th2 = document.createElement("th");
+            th2.textContent = "Amount";
+            headerRow.appendChild(th1);
+            headerRow.appendChild(th2);
+            table.appendChild(headerRow);
+
+            // Loop through data and create table rows
             data.forEach(expense => {
-                var li = document.createElement("li");
-                li.textContent = expense.description + " - " + expense.amount;
-                ul.appendChild(li);
+                var row = document.createElement("tr");
+                var descriptionCell = document.createElement("td");
+                descriptionCell.textContent = expense.description || "N/A";
+                descriptionCell.style.border = "1px solid #dddddd";
+                descriptionCell.style.textAlign = "center";
+                var amountCell = document.createElement("td");
+                var formattedAmount = parseFloat(expense.amount).toFixed(2);
+                amountCell.textContent = formattedAmount;
+                amountCell.style.border = "1px solid #dddddd";
+                amountCell.style.textAlign = "center";
+                row.appendChild(descriptionCell);
+                row.appendChild(amountCell);
+                table.appendChild(row);
             });
-            expensesList.appendChild(ul);
+
+            expensesList.appendChild(table);
         })
         .catch(error => {
             console.error("Error:", error);

@@ -25,7 +25,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
                 if (token) {
                     saveToken(token);
                     // Redirect to another page or perform other actions
-                    if (userrole === getUserRole()) {
+                    if (username === 'shivam') {
                         window.location.href = "./users.html";
                     }else{
                         window.location.href = "./expenses.html";
@@ -45,10 +45,3 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         document.getElementById("message").innerText = "An error occurred. Please try again later.";
     });
 });
-function getUserRole() {
-    if(username == 'shivam'){
-        return 'admin';
-    }else{
-        return 'user';
-    }
-}
